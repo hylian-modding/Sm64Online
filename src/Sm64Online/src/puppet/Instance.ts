@@ -53,7 +53,7 @@ export class Data extends API.BaseObj implements Data {
         this.curAnim = val;
 
         // Set anim pointer
-        let anim_ptr = 0x804000 + this.index * 0x4000;
+        let anim_ptr = 0x804000 + this.index * 0x3288;
         this.emulator.rdramWrite32(ptr + 0x3C, 0x80000000 + anim_ptr);
 
         // Write anim
@@ -64,7 +64,6 @@ export class Data extends API.BaseObj implements Data {
         let anim_index = anim_ptr + buf.readUInt32BE(0x10);
         this.emulator.rdramWrite32(anim_ptr + 0x0c, anim_value);
         this.emulator.rdramWrite32(anim_ptr + 0x10, anim_index);
-
     }
 
     get fnim(): Buffer {
