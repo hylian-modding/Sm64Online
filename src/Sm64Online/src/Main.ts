@@ -33,30 +33,20 @@ export class Sm64Online implements IPlugin, IPluginServerConfig {
 	// Helpers
 	protected curScene: number = -1;
 	protected isPaused: boolean = false;
-	protected isVisible: boolean = false;
 
 	handle_scene_change(scene: number) {
-		if (scene === this.curScene) {
-			this.ModLoader.clientSide.sendPacket(
-				new Net.SyncNumber(this.ModLoader.clientLobby, "SyncScene", scene, true)
-			); this.ModLoader.logger.info('Moved to scene[' + scene + '].');
-			return;
-		}
+		if (scene === this.curScene) return;
 
 		// Set global to current scene value
 		this.curScene = scene;
-
-		// Only send data if we are visible
-		this.isVisible = this.core.player.visible;
-		if (!this.isVisible) return;
 
 		this.ModLoader.clientSide.sendPacket(new Net.SyncNumber(this.ModLoader.clientLobby, "SyncScene", scene, true));
 		this.ModLoader.logger.info('Moved to scene[' + scene + '].');
 	}
 
-	handle_puppets(scene: number) {
+	handle_puppets(scene: number, visible: boolean) {
 		this.pMgr.scene = scene;
-		this.pMgr.onTick(this.curScene !== -1 && this.isVisible);
+		this.pMgr.onTick(this.curScene !== -1 && visible);
 	}
 
 	handle_save_flags(bufData: Buffer, bufStorage: Buffer, profile: number) {
@@ -138,12 +128,13 @@ export class Sm64Online implements IPlugin, IPluginServerConfig {
 		let paused: boolean = this.core.runtime.get_is_paused();
 		let profile: number = this.core.runtime.get_current_profile();
 		let scene: number = this.core.runtime.get_current_scene();
+		let visible: boolean = this.core.player.visible;
 		let bufStorage: Buffer;
 		let bufData: Buffer;
 
 		// General Setup/Handlers
 		this.handle_scene_change(scene);
-		this.handle_puppets(scene);
+		this.handle_puppets(scene, visible);
 
 		// Progress Flags Handlers
 		this.handle_save_flags(bufData!, bufStorage!, profile);
