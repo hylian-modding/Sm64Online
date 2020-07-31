@@ -37,19 +37,9 @@ export class Sm64Online implements IPlugin, IPluginServerConfig {
 
 	handle_scene_change(scene: number) {
 		if (scene === this.curScene) {
-			if (this.isVisible !== this.core.player.visible) {
-				this.isVisible = this.core.player.visible;
-
-				if (this.isVisible) {
-					this.ModLoader.clientSide.sendPacket(
-						new Net.SyncNumber(this.ModLoader.clientLobby, "SyncScene", scene, true)
-					); this.ModLoader.logger.info('Moved to scene[' + scene + '].');
-				} else {
-					this.ModLoader.clientSide.sendPacket(
-						new Net.SyncNumber(this.ModLoader.clientLobby, "SyncScene", 0xff, true)
-					); this.ModLoader.logger.info('Unloaded the scene.');
-				}
-			}
+			this.ModLoader.clientSide.sendPacket(
+				new Net.SyncNumber(this.ModLoader.clientLobby, "SyncScene", scene, true)
+			); this.ModLoader.logger.info('Moved to scene[' + scene + '].');
 			return;
 		}
 
@@ -57,6 +47,7 @@ export class Sm64Online implements IPlugin, IPluginServerConfig {
 		this.curScene = scene;
 
 		// Only send data if we are visible
+		this.isVisible = this.core.player.visible;
 		if (!this.isVisible) return;
 
 		this.ModLoader.clientSide.sendPacket(new Net.SyncNumber(this.ModLoader.clientLobby, "SyncScene", scene, true));
