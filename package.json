@@ -1,6 +1,6 @@
 {
   "name": "Sm64Online",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This is the official repository.",
   "main": "Sm64Online.js",
   "author": "SpiceyWolf, MelonSpeedruns",
@@ -18,5 +18,9 @@
   "homepage": "https://github.com/Modloader-Lost-Mods/Sm64Online#readme",
   "modloader64_deps": {
     "SuperMario64": "https://github.com/Modloader-Lost-Mods/Core-SuperMario64"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": []
 }

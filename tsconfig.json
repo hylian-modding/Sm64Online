@@ -13,11 +13,14 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
+      "@sound/*": [
+        "./build/emulator/*"
+      ],
       "@Sm64Online/*": [
         "./src/Sm64Online/*"
       ],
       "SuperMario64/*": [
-        "libs/SuperMario64/*"
+        "libs\\SuperMario64/*"
       ]
     }
   },
@@ -26,7 +29,9 @@
     "test/**/*.ts",
     "mods/**/*.ts",
     "cores/**/*.ts",
-    "bin/paker.ts"
+    "bin/paker.ts",
+    "tools/**/*.ts",
+    "src/modloader/consoles/mupen/resources/test.js"
   ],
   "exclude": [
     "node_modules",
