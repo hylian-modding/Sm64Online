@@ -5,7 +5,9 @@ export class Database {
 }
 
 // Client only data here
-export class DatabaseClient extends Database { }
+export class DatabaseClient extends Database { 
+    hasHat: boolean = true;
+}
 
 // Server only data here
 export class DatabaseServer extends Database {

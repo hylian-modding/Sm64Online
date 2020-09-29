@@ -17,6 +17,7 @@ import { Packet } from 'modloader64_api/ModLoaderDefaultImpls';
 import * as API from 'SuperMario64/API/Imports';
 import * as Net from './network/Imports';
 import * as Puppet from './puppet/Imports';
+import { onPostTick } from 'modloader64_api/PluginLifecycle';
 
 export class Sm64Online implements IPlugin, IPluginServerConfig {
 	ModLoader = {} as IModLoaderAPI;
@@ -124,6 +125,12 @@ export class Sm64Online implements IPlugin, IPluginServerConfig {
 	onTick(): void {
 		if (!this.core.player.exists) return;
 
+		if (this.ModLoader.emulator.rdramRead32(0x8033EFFC) < 50){
+			return;
+		}
+
+		this.cDB.hasHat = this.ModLoader.emulator.rdramReadBit8(0x8033B177, 0x3);
+
 		// Initializers
 		let paused: boolean = this.core.runtime.get_is_paused();
 		let profile: number = this.core.runtime.get_current_profile();
@@ -141,7 +148,12 @@ export class Sm64Online implements IPlugin, IPluginServerConfig {
 		this.handle_star_count();
 	}
 
-	getServerURL(): string { return "158.69.60.101:8030"; }
+	@onPostTick()
+	onPostTick(){
+		this.ModLoader.emulator.rdramWriteBit8(0x8033B177, 0x3, this.cDB.hasHat);
+	}
+
+	getServerURL(): string { return "192.99.70.23:8040"; }
 
 	@EventHandler(EventsClient.ON_INJECT_FINISHED)
 	onClient_InjectFinished(evt: any) { }
