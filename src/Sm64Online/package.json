@@ -7,8 +7,8 @@
   "credits": "Cheezepin",
   "license": "GPL3",
   "core": "SuperMario64",
-  "updateUrl": "https://raw.githubusercontent.com/hylian-modding/Sm64Online/master/update.json",
+  "updateUrl": "https://repo.modloader64.com/mods/SM64O/update/update.json",
   "modloader64_deps": {
-    "SuperMario64": "https://github.com/Modloader-Lost-Mods/Core-SuperMario64"
+    "SuperMario64": "https://github.com/hylian-modding/Core-SuperMario64"
   }
 }
